@@ -8,10 +8,8 @@ export const Task = (props) => {
 
     return (
         <li>
-            <span text-decoration ="line-through" >
-                <input  type="checkbox" id="check" className='cbox' /> 
-            </span>
-            
+            <input  type="checkbox" id="check" className='cbox' /> 
+                        
             {NameTask}
             <button className="btn-delete"><FaTrash/> </button>
             <button className="btn-edit"><FaEdit/> </button>
