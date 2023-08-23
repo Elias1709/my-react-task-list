@@ -4,28 +4,41 @@ import useTaskList from '../hooks/useTaskList';
 
 export const TaskList = () => {
   const [newTask, setNewTask] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+  const [validationError, setValidationError] = useState(null);
   const { tasks, addTask, updateTask, removeTask, toggleTaskComplete } = useTaskList();
   const [editIndex, setEditIndex] = useState(null);
   const [editedTask, setEditedTask] = useState('');
+  const [editedDescription, setEditedDescription] = useState('');
 
   const handleAddTask = () => {
-    if (newTask.trim() !== '') {
-      addTask({ text: newTask, completed: false });
-      setNewTask('');
+    if (newTask.trim().length < 3) {
+      alert('El nombre de la tarea debe tener al menos 3 caracteres.');
+      return;
     }
+    addTask({ text: newTask, description: newDescription, completed: false });
+      setNewTask('');
+      setNewDescription('');
+      setValidationError(null);
   };
+
 
   const handleEditTask = (index) => {
     setEditIndex(index);
     setEditedTask(tasks[index].text);
+    setEditedDescription(tasks[index].description);
   };
 
   const handleUpdateTask = () => {
-    if (editedTask.trim() !== '') {
-      updateTask(editIndex, { text: editedTask, completed: tasks[editIndex].completed });
-      setEditIndex(null);
-      setEditedTask('');
+    if (editedTask.trim().length < 3) {
+      alert('El nombre de la tarea debe contener al menos 3 caracteres.');
+      return;
     }
+    updateTask(editIndex, { text: editedTask, description: editedDescription, completed: tasks[editIndex].completed });
+    setEditIndex(null);
+    setEditedTask('');
+    setEditedDescription('');
+  
   };
 
   const handleRemoveTask = (index) => {
@@ -38,15 +51,48 @@ export const TaskList = () => {
 
   
     return (
-        <div>
+        <div className="container text-center">
           <h1>Lista de Tareas</h1>
+          <div className="mb-3">
+        <form>
+          <div className="mb-3">
+            <label htmlFor="taskName" className="form-label">
+              Nombre de la Tarea
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="taskName"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="taskDescription" className="form-label">
+                Descripción de la Tarea (opcional)
+            </label>
+            <textarea
+              className="form-control"
+              id="taskDescription"
+              rows="3"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+            ></textarea>
+          </div>
+          {validationError && (
+            <div className="alert alert-danger mt-3" role="alert">
+              {validationError}
+            </div>
+          )}
           <div className="mb-3 ">
             <input type="text" value={newTask} onChange={(e) =>
                 setNewTask(e.target.value)} placeholder="Agregue una tarea"/>
                 <button className="btn btn-primary" onClick={handleAddTask}>
                     Agregar
                 </button>
+                
             </div>
+            </form>
           <table className="table table-striped table-bordered ">
             <thead>
               <tr className="table table-primary">
@@ -88,6 +134,7 @@ export const TaskList = () => {
               ))}
             </tbody>
           </table>
+        </div>
         </div>
   );
 };
