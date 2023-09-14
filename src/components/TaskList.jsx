@@ -86,7 +86,7 @@ export const TaskList = () => {
           )}
           <div className="mb-3 ">
             <input type="text" value={newTask} onChange={(e) =>
-                setNewTask(e.target.value)} placeholder="Agregue una tarea"/>
+                setNewTask(e.target.value)} placeholder="Agregue una tareaa"/>
                 <button className="btn btn-primary" onClick={handleAddTask}>
                     Agregar
                 </button>
