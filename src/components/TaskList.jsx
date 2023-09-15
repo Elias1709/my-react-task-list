@@ -1,6 +1,7 @@
 // TaskList.js
 import React, { useState } from 'react';
 import useTaskList from '../hooks/useTaskList';
+import { ChakraProvider, Button, Flex, useColorMode, useColorModeValue, Center } from "@chakra-ui/react";
 
 export const TaskList = () => {
   const [newTask, setNewTask] = useState('');
@@ -10,6 +11,8 @@ export const TaskList = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editedTask, setEditedTask] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
+  const {toggleColorMode } = useColorMode()
+  const formBaackground = useColorModeValue()
 
   const handleAddTask = () => {
     if (newTask.trim().length < 3) {
@@ -51,11 +54,13 @@ export const TaskList = () => {
 
   
     return (
-        <div className="container text-center">
+        
+         <Flex style={{ minHeight: "100vh", justifyContent: 'center', background: formBaackground }}> 
+          <Button onClick={toggleColorMode}>Tema</Button> 
+          <div className="mb-5" >
           <h1>Lista de Tareas</h1>
-          <div className="mb-3">
         <form>
-          <div className="mb-3">
+          <div className="mb-5"  >
             <label htmlFor="taskName" className="form-label">
               Nombre de la Tarea
             </label>
@@ -67,7 +72,7 @@ export const TaskList = () => {
               onChange={(e) => setNewTask(e.target.value)}
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-5">
             <label htmlFor="taskDescription" className="form-label">
                 Descripción de la Tarea (opcional)
             </label>
@@ -84,7 +89,7 @@ export const TaskList = () => {
               {validationError}
             </div>
           )}
-          <div className="mb-3 ">
+          <div className="mb-5 ">
             <input type="text" value={newTask} onChange={(e) =>
                 setNewTask(e.target.value)} placeholder="Agregue una tareaa"/>
                 <button className="btn btn-primary" onClick={handleAddTask}>
@@ -135,7 +140,9 @@ export const TaskList = () => {
             </tbody>
           </table>
         </div>
-        </div>
+        
+        </Flex>
+       
   );
 };
 
